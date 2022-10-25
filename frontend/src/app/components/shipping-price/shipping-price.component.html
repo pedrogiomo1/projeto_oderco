@@ -1,0 +1,155 @@
+<app-loader *ngIf="loading"></app-loader>
+<div class="container">
+  <div class="d-flex mt-5">
+    <div class="col-5">
+      <div class="card shadow-card">
+        <div class="card-header pb-0">
+          <div class="h4">Cadastro cotação de frete</div>
+        </div>
+        <div class="card-body">
+          <form class="form-group" [formGroup]="shipping_create_form">
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect01" formControlName="transportadora_id" required>
+                <option disabled selected>Transportadora</option>
+                <option value="1">Kangu</option>
+                <option value="2">Loggi</option>
+                <option value="3">Mandaê</option>
+                <option value="4">TNT</option>
+                <option value="5">TSV</option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect02" formControlName="uf" required>
+                <option disabled selected>UF</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="">Percentual cotação (%)</label>
+              <input type="number" class="form-control" placeholder="2.5" formControlName="percentual_cotacao" mask="9.99" required>
+            </div>
+            <div class="form-group">
+              <label for="">Valor extra (R$)</label>
+              <input type="number" class="form-control" placeholder="8.90" formControlName="valor_extra" required>
+            </div>
+            <div class="text-right pt-2">
+              <button class="btn btn-primary px-4" (click)="create_shipping_price()">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-5">
+      <div class="card shadow-card">
+        <div class="card-header pb-0">
+          <div class="h4">Cotar frete</div>
+        </div>
+        <div class="card-body">
+          <form class="form-group" [formGroup]="shipping_calculate_form">
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect01" formControlName="uf" required>
+                <option disabled selected>UF</option>
+                <option value="AC">Acre</option>
+                <option value="AL">Alagoas</option>
+                <option value="AP">Amapá</option>
+                <option value="AM">Amazonas</option>
+                <option value="BA">Bahia</option>
+                <option value="CE">Ceará</option>
+                <option value="DF">Distrito Federal</option>
+                <option value="ES">Espírito Santo</option>
+                <option value="GO">Goiás</option>
+                <option value="MA">Maranhão</option>
+                <option value="MT">Mato Grosso</option>
+                <option value="MS">Mato Grosso do Sul</option>
+                <option value="MG">Minas Gerais</option>
+                <option value="PA">Pará</option>
+                <option value="PB">Paraíba</option>
+                <option value="PR">Paraná</option>
+                <option value="PE">Pernambuco</option>
+                <option value="PI">Piauí</option>
+                <option value="RJ">Rio de Janeiro</option>
+                <option value="RN">Rio Grande do Norte</option>
+                <option value="RS">Rio Grande do Sul</option>
+                <option value="RO">Rondônia</option>
+                <option value="RR">Roraima</option>
+                <option value="SC">Santa Catarina</option>
+                <option value="SP">São Paulo</option>
+                <option value="SE">Sergipe</option>
+                <option value="TO">Tocantins</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="">Valor do Pedido (R$)</label>
+              <input type="number" class="form-control" placeholder="199.90" formControlName="valor_pedido" required>
+            </div>
+            <button class="btn btn-primary px-4" (click)="calculate_shipping_price()">Cotar</button>
+          </form>
+          <div class="mt-2" *ngIf="show_calculated_shipping_price_list">
+            <p>Melhores Resultados:</p>
+            <table class="table table-sm table-bordered">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Transportadora</th>
+                  <th scope="col">Valor cotação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of calculated_shipping_price_list">
+                  <td>{{ item.id_transportadora }}</td>
+                  <td>{{ item.valor_cotacao |currency:"BRL" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-sm mt-4">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">UF</th>
+        <th scope="col">Percentual Frete(%)</th>
+        <th scope="col">Valor Taxa</th>
+        <th scope="col">Id Transportadora</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of shipping_price_list">
+        <td> {{ item.id }} </td>
+        <td> {{ item.uf }} </td>
+        <td> {{ item.percentual_cotacao }} </td>
+        <td> {{ item.valor_extra |currency:"BRL" }} </td>
+        <td> {{ item.transportadora_id }} </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
