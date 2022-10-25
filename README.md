@@ -26,7 +26,7 @@ Dentro da classe ShippingController temos os seguintes métodos:
 Caso não existam cotações cadastradas para aquele UF, a aplicação retorna um erro.
 * "listShippingPrice": faz uma busca no banco de dados a respeito de todos as cotações ja criadas e as retorna para o usuário.
 
-# ANGULAR
+# ANGULAR (frontend)
 
 Todos os métodos estão dentro do "shipping-price.component", este se relaciona com o service "shipping.service.js", que fazem contato com a API a partir das rotas criadas.
 
